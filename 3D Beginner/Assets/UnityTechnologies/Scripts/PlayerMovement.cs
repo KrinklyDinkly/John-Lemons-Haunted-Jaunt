@@ -9,6 +9,7 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 m_Movement;
     private Animator m_Animator;
     private Rigidbody m_Rigidbody;
+    Quaternion m_Rotation = Quaternion.identity;
 
     // Start is called before the first frame update
     void Start()
@@ -32,7 +33,6 @@ public class PlayerMovement : MonoBehaviour
         m_Animator.SetBool ("IsWalking", isWalking);
 
         Vector3 desiredForward = Vector3.RotateTowards (transform.forward, m_Movement, turnSpeed * Time.deltaTime, 0f);
-        Quaternion m_Rotation = Quaternion.identity;
         m_Rotation = Quaternion.LookRotation (desiredForward);
 
     }
@@ -40,5 +40,6 @@ public class PlayerMovement : MonoBehaviour
      void OnAnimatorMove()
     {
         m_Rigidbody.MovePosition (m_Rigidbody.position + m_Movement * m_Animator.deltaPosition.magnitude);
+        m_Rigidbody.MoveRotation (m_Rotation);
     }
 }
